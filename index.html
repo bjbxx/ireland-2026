@@ -39,6 +39,10 @@
     </div>
   </header>
 
+  <div class="max-w-md mx-auto px-4 pt-4">
+    <div id="next-up-banner" class="rounded-2xl border border-emerald-500/30 bg-emerald-950/40 p-3 shadow-lg"></div>
+  </div>
+
   <!-- Main Content Container -->
   <main class="p-4 max-w-md mx-auto space-y-4" id="app">
     <!-- Day cards rendered dynamically via JS -->
@@ -50,28 +54,31 @@
         id: "sep4",
         date: "Fri, Sep 4",
         city: "Dublin",
+        weatherCity: "Dublin",
         hotel: "Schoolhouse Hotel",
         searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "Airport Arrival -> Hotel",
-        activities: "Arrive morning. Book of Kells, Guinness Storehouse, Jameson Distillery Bow St., St. Stephen's Green.",
-        alert: "Required: Reserve tickets for Book of Kells, Kilmainham Gaol, Guinness, & Jameson in advance.",
+        activities: "Arrive morning. Guinness Storehouse, Jameson Distillery Bow St., St. Stephen's Green.",
+        alert: "Reserve tickets for Guinness & Jameson in advance.",
         highPriority: true
       },
       {
         id: "sep5",
         date: "Sat, Sep 5",
         city: "Dublin",
+        weatherCity: "Dublin",
         hotel: "Schoolhouse Hotel",
         searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "In & around Dublin",
-        activities: "Continue Dublin sights & St. Stephen's Green. Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM).",
-        alert: "Space out reserved attraction times carefully today.",
+        activities: "Book of Kells. Kilmainham Gaol at 1:45 PM. Continue Dublin sights & St. Stephen's Green. Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM).",
+        alert: "Required: Reserve tickets for Book of Kells, Kilmainham Gaol, Guinness, & Jameson in advance.",
         highPriority: true
       },
       {
         id: "sep6",
         date: "Sun, Sep 6",
         city: "Enniskillen",
+        weatherCity: "Enniskillen",
         hotel: "Enniskillen Hotel",
         searchQuery: "Enniskillen Hotel Enniskillen Northern Ireland",
         drive: "Dublin -> Enniskillen (~2h 15m)",
@@ -83,6 +90,7 @@
         id: "sep7",
         date: "Mon, Sep 7",
         city: "Turin Castle",
+        weatherCity: "Ballinrobe",
         hotel: "Turin Castle (Ballinrobe)",
         searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Enniskillen -> Westport -> Castle (~3h 30m)",
@@ -94,6 +102,7 @@
         id: "sep8",
         date: "Tue, Sep 8",
         city: "Turin Castle",
+        weatherCity: "Ballinrobe",
         hotel: "Turin Castle (Ballinrobe)",
         searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Connemara Loop (~2h 30m total)",
@@ -105,6 +114,7 @@
         id: "sep9",
         date: "Wed, Sep 9",
         city: "Adare / Limerick",
+        weatherCity: "Adare",
         hotel: "Dunraven Arms Hotel",
         searchQuery: "Dunraven Arms Hotel Adare Ireland",
         drive: "Turin Castle -> Adare via Burren (~2h 30m)",
@@ -116,6 +126,7 @@
         id: "sep10",
         date: "Thu, Sep 10",
         city: "Dingle",
+        weatherCity: "Dingle",
         hotel: "Greenmount House B&B",
         searchQuery: "Greenmount House Dingle Ireland",
         drive: "Adare -> Dingle Peninsula (~2h)",
@@ -127,10 +138,11 @@
         id: "sep11",
         date: "Fri, Sep 11",
         city: "Dingle",
+        weatherCity: "Dingle",
         hotel: "Greenmount House B&B",
         searchQuery: "Greenmount House Dingle Ireland",
         drive: "Ring of Kerry / Killarney Loop",
-        activities: "Option A: Drive Ring of Kerry (Molls Gap, Ladies View).\\nOption B: Relaxed Killarney day (Ross Castle, Muckross House).",
+        activities: "Option A: Drive Ring of Kerry (Molls Gap, Ladies View).\nOption B: Relaxed Killarney day (Ross Castle, Muckross House).",
         scenic: "Ross Castle or Muckross House & Gardens.",
         highPriority: false
       },
@@ -138,6 +150,7 @@
         id: "sep12",
         date: "Sat, Sep 12",
         city: "Dublin",
+        weatherCity: "Dublin",
         hotel: "Premier Inn Dublin Airport",
         searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Dingle -> Cashel (3h) -> Dublin (2h)",
@@ -149,10 +162,11 @@
         id: "sep13",
         date: "Sun, Sep 13",
         city: "Dublin / Depart",
+        weatherCity: "Dublin",
         hotel: "Premier Inn (Jane & Steve)",
         searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Airport Shuttle / NE Coast",
-        activities: "Morning Flights: Brian/Becca, Mary/Doug.\\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
+        activities: "Morning Flights: Brian/Becca, Mary/Doug.\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
         alert: "Free Premier Inn airport shuttle.",
         highPriority: true
       },
@@ -160,6 +174,7 @@
         id: "sep14",
         date: "Mon, Sep 14",
         city: "Departure",
+        weatherCity: "Dublin",
         hotel: "Dublin Airport",
         searchQuery: "Dublin Airport Ireland",
         drive: "Airport Shuttle",
@@ -169,20 +184,222 @@
       }
     ];
 
+    const weatherCache = new Map();
+
+    function getWeatherLabel(code) {
+      const weatherCodes = {
+        0: 'Clear sky', 1: 'Mostly clear', 2: 'Partly cloudy', 3: 'Cloudy',
+        45: 'Foggy', 48: 'Depositing rime fog', 51: 'Light drizzle', 53: 'Drizzle',
+        55: 'Heavy drizzle', 56: 'Freezing drizzle', 57: 'Heavy freezing drizzle',
+        61: 'Light rain', 63: 'Rain', 65: 'Heavy rain', 66: 'Freezing rain',
+        67: 'Heavy freezing rain', 71: 'Light snow', 73: 'Snow', 75: 'Heavy snow',
+        77: 'Snow grains', 80: 'Rain showers', 81: 'Heavy showers', 82: 'Violent showers',
+        85: 'Snow showers', 86: 'Heavy snow showers', 95: 'Thunderstorm',
+        96: 'Thunderstorm with hail', 99: 'Severe thunderstorm'
+      };
+      return weatherCodes[code] || 'Current conditions';
+    }
+
+    function getWeatherIcon(code) {
+      if (code === 0 || code === 1) return '☀️';
+      if (code === 2 || code === 3) return '⛅';
+      if ([45, 48].includes(code)) return '🌫️';
+      if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return '🌧️';
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return '❄️';
+      if ([95, 96, 99].includes(code)) return '⛈️';
+      return '🌤️';
+    }
+
+    async function fetchWeatherForCity(city) {
+      try {
+        const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+        const geocodeResponse = await fetch(geocodeUrl);
+        if (!geocodeResponse.ok) return null;
+
+        const geocodeData = await geocodeResponse.json();
+        const location = geocodeData.results && geocodeData.results[0];
+        if (!location) return null;
+
+        const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${location.latitude}&longitude=${location.longitude}&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=3&temperature_unit=fahrenheit`;
+        const weatherResponse = await fetch(weatherUrl);
+        if (!weatherResponse.ok) return null;
+
+        const weatherData = await weatherResponse.json();
+        const current = weatherData.current || {};
+        const daily = weatherData.daily || {};
+        const code = current.weather_code;
+        const windMph = Math.round((current.wind_speed_10m ?? 0) * 0.621371);
+
+        const forecast = (daily.time || []).slice(0, 3).map((dateStr, index) => {
+          const codeForDay = daily.weather_code?.[index];
+          const maxTemp = Math.round(daily.temperature_2m_max?.[index] ?? 0);
+          const minTemp = Math.round(daily.temperature_2m_min?.[index] ?? 0);
+
+          return {
+            label: new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short' }),
+            icon: getWeatherIcon(codeForDay),
+            max: maxTemp,
+            min: minTemp
+          };
+        });
+
+        return {
+          temp: Math.round(current.temperature_2m ?? 0),
+          feelsLike: Math.round(current.apparent_temperature ?? 0),
+          wind: windMph,
+          label: getWeatherLabel(code),
+          icon: getWeatherIcon(code),
+          forecast
+        };
+      } catch (error) {
+        return null;
+      }
+    }
+
+    async function hydrateWeather() {
+      const cities = [...new Set(itinerary.map(day => day.weatherCity || day.city))];
+
+      for (const city of cities) {
+        if (!weatherCache.has(city)) {
+          weatherCache.set(city, { loading: true });
+          render();
+        }
+
+        const result = await fetchWeatherForCity(city);
+        weatherCache.set(city, result || { unavailable: true });
+        render();
+      }
+    }
+
+    const TEST_OVERRIDE_DATE = '2026-09-04T12:00:00';
+
+    function getCurrentDate() {
+      const override = new URLSearchParams(window.location.search).get('mockDate');
+      if (override) return new Date(override);
+      return new Date();
+    }
+
+    function getDayDate(day) {
+      const dateText = day.date.replace(/^[A-Za-z]{3},\s*/, '');
+      const [monthName, dayNumber] = dateText.split(' ');
+      const monthIndex = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].indexOf(monthName);
+      if (monthIndex === -1) return null;
+      const year = getCurrentDate().getFullYear();
+      return new Date(year, monthIndex, Number(dayNumber));
+    }
+
+    function getNextUpDay() {
+      const today = new Date(getCurrentDate().setHours(0, 0, 0, 0));
+      const upcoming = itinerary.find((day) => {
+        const date = getDayDate(day);
+        return date && date >= today;
+      });
+
+      if (upcoming) return upcoming;
+
+      const latest = [...itinerary].reverse().find((day) => {
+        const date = getDayDate(day);
+        return date && date <= today;
+      });
+
+      return latest || itinerary[0];
+    }
+
+    function renderNextUpBanner() {
+      const banner = document.getElementById('next-up-banner');
+      if (!banner) return;
+
+      const nextUp = getNextUpDay();
+      const nextUpDate = getDayDate(nextUp);
+      const isPast = nextUpDate && nextUpDate < new Date(getCurrentDate().setHours(0, 0, 0, 0));
+      const isComplete = isPast && nextUp.id === itinerary[itinerary.length - 1].id;
+
+      if (isComplete && nextUp.id === itinerary[itinerary.length - 1].id) {
+        banner.innerHTML = `
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300">Trip status</div>
+              <div class="text-sm font-bold text-slate-100 mt-1">All set — trip complete</div>
+            </div>
+            <div class="text-2xl">✅</div>
+          </div>
+        `;
+        return;
+      }
+
+      banner.innerHTML = `
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300">Next up</div>
+            <div class="text-base font-bold text-slate-100 mt-1">${nextUp.date} • ${nextUp.city}</div>
+            <div class="text-[12px] text-slate-300 mt-0.5">${nextUp.drive}</div>
+          </div>
+          <div class="text-2xl">➡️</div>
+        </div>
+      `;
+    }
+
     function render() {
       const container = document.getElementById("app");
-      const savedStates = JSON.parse(localStorage.getItem("ireland_2026_progress") || "{}");
       
       let completedCount = 0;
 
       container.innerHTML = itinerary.map((day) => {
-        const isDone = !!savedStates[day.id];
+        const date = getDayDate(day);
+        const isDone = !!(date && date < new Date(getCurrentDate().setHours(0, 0, 0, 0)));
         if (isDone) completedCount++;
 
+        const isToday = date && date.getTime() === new Date(getCurrentDate().setHours(0, 0, 0, 0)).getTime();
+        const dayTypeClass = isToday ? 'border-emerald-500/50 shadow-emerald-900/20' : isDone ? 'border-slate-800 opacity-60' : day.highPriority ? 'border-amber-500/40' : 'border-slate-800';
+        const dayTypeLabel = isToday ? 'Today' : isDone ? 'Past' : day.highPriority ? 'Priority' : 'Plan';
+
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.searchQuery)}`;
+        const weatherKey = day.weatherCity || day.city;
+        const weather = weatherCache.get(weatherKey) || null;
+        const forecastStrip = !weather || weather.loading || weather.unavailable || !weather.forecast?.length
+          ? ''
+          : `
+            <div class="mt-2 overflow-hidden rounded-xl border border-slate-700 bg-slate-900/60">
+              <button type="button" class="flex w-full items-center justify-between px-2.5 py-2 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-300" data-forecast-toggle="${day.id}">
+                <span>3-day forecast</span>
+                <span class="text-slate-400" data-forecast-chevron="${day.id}">▾</span>
+              </button>
+              <div class="hidden grid grid-cols-3 gap-2 p-2" data-forecast-panel="${day.id}">
+                ${weather.forecast.map((item) => `
+                  <div class="rounded-xl border border-slate-700 bg-slate-900/70 px-2 py-1.5 text-center">
+                    <div class="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">${item.label}</div>
+                    <div class="text-base leading-none my-1">${item.icon}</div>
+                    <div class="text-[10px] text-emerald-300">${item.max}°</div>
+                    <div class="text-[9px] text-slate-500">${item.min}°</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+
+        const weatherBlock = !weather || weather.loading
+          ? '<div class="text-[11px] text-slate-400">Loading weather…</div>'
+          : weather.unavailable
+            ? '<div class="text-[11px] text-slate-400">Weather unavailable right now</div>'
+            : `
+              <div class="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800/80 px-2.5 py-2 text-[12px]">
+                <div class="flex items-center gap-2 text-slate-200">
+                  <span class="text-lg">${weather.icon}</span>
+                  <div>
+                    <div class="font-semibold text-emerald-300 text-[14px]">${weather.temp}°F</div>
+                    <div class="text-slate-400">${weather.label}</div>
+                  </div>
+                </div>
+                <div class="text-right text-slate-300">
+                  <div>Feels ${weather.feelsLike}°F</div>
+                  <div class="text-slate-400">Wind ${weather.wind} mph</div>
+                </div>
+              </div>
+              ${forecastStrip}
+            `;
 
         return `
-          <div class="bg-slate-900 rounded-2xl p-4 border ${isDone ? 'border-slate-800 opacity-60' : day.highPriority ? 'border-amber-500/40' : 'border-slate-800'} shadow-lg transition-all space-y-3">
+          <div class="bg-slate-900 rounded-2xl p-4 border ${dayTypeClass} shadow-lg transition-all space-y-3">
             
             <!-- Top Bar -->
             <div class="flex justify-between items-start border-b border-slate-800 pb-2.5">
@@ -192,14 +409,19 @@
                   📍 ${day.city}
                 </h2>
               </div>
-              <label class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 cursor-pointer active:scale-95 transition">
-                <input type="checkbox" ${isDone ? "checked" : ""} onchange="toggleDay('${day.id}')" class="accent-emerald-500 rounded h-4 w-4">
-                <span class="text-xs font-medium text-slate-300">${isDone ? "Done" : "Mark"}</span>
-              </label>
+              <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
+                <span class="text-[10px] font-semibold uppercase tracking-[0.12em] ${isToday ? 'text-emerald-300' : isDone ? 'text-slate-400' : day.highPriority ? 'text-amber-300' : 'text-slate-300'}">${dayTypeLabel}</span>
+              </div>
+            </div>
+
+            <!-- Weather -->
+            <div class="space-y-1.5">
+              <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">Weather</div>
+              ${weatherBlock}
             </div>
 
             <!-- Lodging & Drive -->
-            <div class="grid grid-cols-1 gap-1.5 text-xs">
+            <div class="grid grid-cols-1 gap-1.5 text-[13px]">
               <div class="flex items-center justify-between">
                 <div class="text-emerald-300/90 font-medium flex items-center gap-1.5">
                   🏨 <span>${day.hotel}</span>
@@ -219,20 +441,20 @@
             </div>
 
             <!-- Main Activities -->
-            <div class="text-xs text-slate-200 leading-relaxed bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
-              ${day.activities.replace(/\\n/g, '<br>')}
+            <div class="text-[13px] text-slate-200 leading-relaxed bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
+              ${day.activities.replace(/\n/g, '<br>')}
             </div>
 
             <!-- Scenic Stops -->
             ${day.scenic ? `
-              <div class="text-xs text-slate-300 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
+              <div class="text-[13px] text-slate-300 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
                 <strong class="text-emerald-400 font-semibold">🌄 Scenic Route:</strong> ${day.scenic}
               </div>
             ` : ''}
 
             <!-- Alert / Urgent Notice -->
             ${day.alert ? `
-              <div class="text-xs bg-amber-950/40 border border-amber-500/30 text-amber-200 p-2.5 rounded-xl flex items-start gap-2">
+              <div class="text-[13px] bg-amber-950/40 border border-amber-500/30 text-amber-200 p-2.5 rounded-xl flex items-start gap-2">
                 <span>⚠️</span>
                 <span>${day.alert}</span>
               </div>
@@ -242,21 +464,28 @@
         `;
       }).join('');
 
-      // Update progress bar
       const pct = Math.round((completedCount / itinerary.length) * 100);
       document.getElementById("progress-bar").style.width = pct + "%";
       document.getElementById("progress-text").innerText = pct + "% Done";
+      renderNextUpBanner();
     }
 
-    function toggleDay(id) {
-      const savedStates = JSON.parse(localStorage.getItem("ireland_2026_progress") || "{}");
-      savedStates[id] = !savedStates[id];
-      localStorage.setItem("ireland_2026_progress", JSON.stringify(savedStates));
-      render();
-    }
+    document.addEventListener('click', (event) => {
+      const toggle = event.target.closest('[data-forecast-toggle]');
+      if (!toggle) return;
 
-    // Initial render
+      const id = toggle.getAttribute('data-forecast-toggle');
+      const panel = document.querySelector(`[data-forecast-panel="${id}"]`);
+      const chevron = document.querySelector(`[data-forecast-chevron="${id}"]`);
+
+      if (!panel || !chevron) return;
+
+      const isHidden = panel.classList.toggle('hidden');
+      chevron.textContent = isHidden ? '▾' : '▴';
+    });
+
     render();
+    hydrateWeather();
 
     // Register basic Service Worker for offline capability
     if ('serviceWorker' in navigator) {
