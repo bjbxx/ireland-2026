@@ -14,37 +14,492 @@
   <link rel="icon" href="https://fav.farm/🇮🇪">
 
   <style>
-    /* Custom scrollbar & mobile tap tweaks */
+    :root {
+      --bg: #06131a;
+      --bg-2: #0d1d28;
+      --panel: rgba(12, 24, 31, 0.96);
+      --panel-soft: rgba(17, 29, 38, 0.9);
+      --panel-strong: rgba(8, 18, 24, 0.98);
+      --line: rgba(142, 177, 186, 0.18);
+      --text: #e8f3f5;
+      --muted: #9db4bd;
+      --accent: #6fe7d2;
+      --accent-2: #5fc4d6;
+      --amber: #f2c46d;
+      --good: #8ce7c4;
+      --danger: #f7c684;
+      --shadow: rgba(3, 12, 18, 0.65);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top, rgba(22, 64, 71, 0.75), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, #081821 100%);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+
     ::-webkit-scrollbar { display: none; }
-    * { -webkit-tap-highlight-color: transparent; }
+
+    .app-shell {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 0 1rem 1rem;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: rgba(7, 18, 24, 0.8);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .topbar-inner {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 0.9rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+    }
+
+    .brand p {
+      margin: 0.25rem 0 0;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    .progress-wrap {
+      text-align: right;
+    }
+
+    .progress-text {
+      display: block;
+      color: var(--accent);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .progress-bar {
+      width: 5.25rem;
+      height: 0.5rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      margin-top: 0.45rem;
+    }
+
+    .progress-fill {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 14px rgba(111, 231, 210, 0.65);
+      transition: width 220ms ease;
+    }
+
+    .banner {
+      margin: 0.85rem auto 0;
+      border-radius: 1rem;
+      border: 1px solid rgba(111, 231, 210, 0.32);
+      background: linear-gradient(135deg, rgba(9, 23, 30, 0.96), rgba(9, 35, 45, 0.95));
+      box-shadow: 0 14px 26px rgba(0,0,0,0.12);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .banner-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .banner-label {
+      font-size: 0.62rem;
+      line-height: 1;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .banner-title {
+      margin-top: 0.3rem;
+      font-size: 1.02rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .banner-subtitle {
+      margin-top: 0.2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .banner-icon {
+      flex-shrink: 0;
+      width: 2.45rem;
+      height: 2.45rem;
+      border-radius: 0.9rem;
+      display: grid;
+      place-items: center;
+      font-size: 1.2rem;
+      background: linear-gradient(180deg, rgba(111, 231, 210, 0.18), rgba(95, 196, 214, 0.12));
+      box-shadow: inset 0 0 0 1px rgba(111, 231, 210, 0.18);
+    }
+
+    .day-card {
+      background: linear-gradient(180deg, rgba(10, 22, 28, 0.96), rgba(6, 17, 23, 0.96));
+      border: 1px solid var(--line);
+      border-radius: 1.15rem;
+      padding: 0.9rem 0.9rem 0.95rem;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+      transition: transform 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    .day-card.today {
+      border-color: rgba(111, 231, 210, 0.48);
+      box-shadow: 0 16px 32px rgba(13, 35, 42, 0.32);
+    }
+
+    .day-card.priority {
+      border-color: rgba(242, 196, 109, 0.42);
+    }
+
+    .day-card.past {
+      opacity: 0.7;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .day-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .day-date {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .city-name {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+      font-size: 1.05rem;
+      line-height: 1.2;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .day-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      padding: 0.4rem 0.6rem;
+      min-width: 4.75rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .day-pill.today {
+      color: var(--accent);
+      border-color: rgba(111, 231, 210, 0.25);
+      background: rgba(111, 231, 210, 0.08);
+    }
+
+    .day-pill.priority {
+      color: var(--amber);
+      border-color: rgba(242, 196, 109, 0.2);
+      background: rgba(242, 196, 109, 0.08);
+    }
+
+    .day-pill.past {
+      color: var(--muted);
+    }
+
+    .weather-block {
+      margin-top: 0.9rem;
+    }
+
+    .weather-head {
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 0.55rem;
+    }
+
+    .weather-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      border-radius: 0.95rem;
+      padding: 0.72rem 0.8rem;
+    }
+
+    .weather-main {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--text);
+    }
+
+    .weather-icon {
+      font-size: 1.2rem;
+      line-height: 1;
+      display: grid;
+      place-items: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.7rem;
+      background: rgba(111, 231, 210, 0.08);
+    }
+
+    .temp {
+      font-size: 1.1rem;
+      line-height: 1.1;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .weather-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .weather-meta {
+      text-align: right;
+      font-size: 0.76rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .weather-meta strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .weather-meta span {
+      color: var(--muted);
+    }
+
+    .forecast-box {
+      overflow: hidden;
+      margin-top: 0.7rem;
+      border-radius: 0.9rem;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .forecast-toggle {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.7rem 0.8rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--muted);
+    }
+
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.5rem;
+      padding: 0.6rem;
+    }
+
+    .forecast-day {
+      border-radius: 0.8rem;
+      background: rgba(8, 18, 24, 0.78);
+      border: 1px solid var(--line);
+      text-align: center;
+      padding: 0.55rem 0.3rem;
+    }
+
+    .forecast-day-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .forecast-day-icon {
+      font-size: 1.05rem;
+      line-height: 1;
+      display: block;
+      margin: 0.35rem 0 0.25rem;
+    }
+
+    .forecast-day-high {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .forecast-day-low {
+      font-size: 0.62rem;
+      color: var(--muted);
+    }
+
+    .trip-meta {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+
+    .hotel-row, .drive-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .hotel-row {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .drive-row {
+      color: var(--muted);
+    }
+
+    .map-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border: 1px solid rgba(111, 231, 210, 0.28);
+      background: rgba(111, 231, 210, 0.08);
+      color: var(--accent);
+      border-radius: 0.7rem;
+      text-decoration: none;
+      font-size: 0.7rem;
+      padding: 0.42rem 0.6rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .activities {
+      margin-top: 0.8rem;
+      border-radius: 0.95rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      padding: 0.8rem 0.8rem 0.75rem;
+      color: var(--text);
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .scenic, .alert {
+      margin-top: 0.8rem;
+      border-radius: 0.95rem;
+      padding: 0.72rem 0.8rem;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .scenic {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+    }
+
+    .alert {
+      border: 1px solid rgba(242, 196, 109, 0.26);
+      background: rgba(242, 196, 109, 0.08);
+      color: #f5d694;
+    }
+
+    .alert strong {
+      font-weight: 800;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans pb-16 antialiased selection:bg-emerald-500 selection:text-slate-950">
 
   <!-- Header -->
-  <header class="sticky top-0 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4 shadow-xl z-20">
-    <div class="max-w-md mx-auto flex justify-between items-center">
-      <div>
-        <h1 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
-          <span>🇮🇪</span> Ireland 2026
-        </h1>
-        <p class="text-xs text-slate-400">Sep 4 – Sep 14 • Field Companion</p>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <h1><span>🇮🇪</span> Ireland 2026</h1>
+        <p>Sep 4 – Sep 14 • Field Companion</p>
       </div>
-      <div class="text-right">
-        <span id="progress-text" class="text-xs font-semibold text-emerald-400">0% Done</span>
-        <div class="w-20 bg-slate-800 h-1.5 rounded-full mt-1 overflow-hidden border border-slate-700">
-          <div id="progress-bar" class="bg-emerald-500 h-full w-0 transition-all duration-300"></div>
+      <div class="progress-wrap">
+        <span id="progress-text" class="progress-text">0% Done</span>
+        <div class="progress-bar">
+          <div id="progress-bar" class="progress-fill"></div>
         </div>
       </div>
     </div>
   </header>
 
-  <div class="max-w-md mx-auto px-4 pt-4">
-    <div id="next-up-banner" class="rounded-2xl border border-emerald-500/30 bg-emerald-950/40 p-3 shadow-lg"></div>
+  <div class="app-shell">
+    <div id="next-up-banner" class="banner"></div>
   </div>
 
   <!-- Main Content Container -->
-  <main class="p-4 max-w-md mx-auto space-y-4" id="app">
+  <main class="app-shell space-y-4" id="app">
     <!-- Day cards rendered dynamically via JS -->
   </main>
 
@@ -72,7 +527,7 @@
         drive: "In & around Dublin",
         activities: "Book of Kells. Kilmainham Gaol at 1:45 PM. Continue Dublin sights & St. Stephen's Green. Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM).",
         alert: "Required: Reserve tickets for Book of Kells, Kilmainham Gaol, Guinness, & Jameson in advance.",
-        highPriority: true
+        highPriority: false
       },
       {
         id: "sep6",
@@ -84,7 +539,7 @@
         drive: "Dublin -> Enniskillen (~2h 15m)",
         activities: "Drive to Enniskillen. Mass at St. Michael's. Detour through North Leitrim (Kelly ancestry).",
         scenic: "Trim Castle & Hill of Tara.",
-        highPriority: false
+        highPriority: true
       },
       {
         id: "sep7",
@@ -120,7 +575,7 @@
         drive: "Turin Castle -> Adare via Burren (~2h 30m)",
         activities: "Drive to Adare via The Burren. Explore area.",
         scenic: "Poulnabrone Dolmen (ancient Neolithic limestone tomb).",
-        highPriority: false
+        highPriority: true
       },
       {
         id: "sep10",
@@ -168,7 +623,7 @@
         drive: "Airport Shuttle / NE Coast",
         activities: "Morning Flights: Brian/Becca, Mary/Doug.\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
         alert: "Free Premier Inn airport shuttle.",
-        highPriority: true
+        highPriority: false
       },
       {
         id: "sep14",
@@ -351,7 +806,7 @@
 
         const isToday = date && date.getTime() === new Date(getCurrentDate().setHours(0, 0, 0, 0)).getTime();
         const dayTypeClass = isToday ? 'border-emerald-500/50 shadow-emerald-900/20' : isDone ? 'border-slate-800 opacity-60' : day.highPriority ? 'border-amber-500/40' : 'border-slate-800';
-        const dayTypeLabel = isToday ? 'Today' : isDone ? 'Past' : day.highPriority ? 'Priority' : 'Plan';
+        const dayTypeLabel = isToday ? 'Today' : isDone ? 'Past' : 'Upcoming';
 
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.searchQuery)}`;
         const weatherKey = day.weatherCity || day.city;
@@ -359,18 +814,18 @@
         const forecastStrip = !weather || weather.loading || weather.unavailable || !weather.forecast?.length
           ? ''
           : `
-            <div class="mt-2 overflow-hidden rounded-xl border border-slate-700 bg-slate-900/60">
-              <button type="button" class="flex w-full items-center justify-between px-2.5 py-2 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-300" data-forecast-toggle="${day.id}">
+            <div class="forecast-box">
+              <button type="button" class="forecast-toggle" data-forecast-toggle="${day.id}">
                 <span>3-day forecast</span>
-                <span class="text-slate-400" data-forecast-chevron="${day.id}">▾</span>
+                <span data-forecast-chevron="${day.id}">▾</span>
               </button>
-              <div class="hidden grid grid-cols-3 gap-2 p-2" data-forecast-panel="${day.id}">
+              <div class="forecast-grid hidden" data-forecast-panel="${day.id}">
                 ${weather.forecast.map((item) => `
-                  <div class="rounded-xl border border-slate-700 bg-slate-900/70 px-2 py-1.5 text-center">
-                    <div class="text-[9px] font-semibold uppercase tracking-[0.12em] text-slate-400">${item.label}</div>
-                    <div class="text-base leading-none my-1">${item.icon}</div>
-                    <div class="text-[10px] text-emerald-300">${item.max}°</div>
-                    <div class="text-[9px] text-slate-500">${item.min}°</div>
+                  <div class="forecast-day">
+                    <div class="forecast-day-label">${item.label}</div>
+                    <span class="forecast-day-icon">${item.icon}</span>
+                    <div class="forecast-day-high">${item.max}°</div>
+                    <div class="forecast-day-low">${item.min}°</div>
                   </div>
                 `).join('')}
               </div>
@@ -378,88 +833,58 @@
           `;
 
         const weatherBlock = !weather || weather.loading
-          ? '<div class="text-[11px] text-slate-400">Loading weather…</div>'
+          ? '<div class="weather-card"><div class="weather-label">Loading weather…</div></div>'
           : weather.unavailable
-            ? '<div class="text-[11px] text-slate-400">Weather unavailable right now</div>'
+            ? '<div class="weather-card"><div class="weather-label">Weather unavailable right now</div></div>'
             : `
-              <div class="flex items-center justify-between rounded-xl border border-slate-700 bg-slate-800/80 px-2.5 py-2 text-[12px]">
-                <div class="flex items-center gap-2 text-slate-200">
-                  <span class="text-lg">${weather.icon}</span>
+              <div class="weather-card">
+                <div class="weather-main">
+                  <span class="weather-icon">${weather.icon}</span>
                   <div>
-                    <div class="font-semibold text-emerald-300 text-[14px]">${weather.temp}°F</div>
-                    <div class="text-slate-400">${weather.label}</div>
+                    <div class="temp">${weather.temp}°F</div>
+                    <div class="weather-label">${weather.label}</div>
                   </div>
                 </div>
-                <div class="text-right text-slate-300">
-                  <div>Feels ${weather.feelsLike}°F</div>
-                  <div class="text-slate-400">Wind ${weather.wind} mph</div>
+                <div class="weather-meta">
+                  <div><strong>Feels ${weather.feelsLike}°F</strong></div>
+                  <div><span>Wind ${weather.wind} mph</span></div>
                 </div>
               </div>
               ${forecastStrip}
             `;
 
         return `
-          <div class="bg-slate-900 rounded-2xl p-4 border ${dayTypeClass} shadow-lg transition-all space-y-3">
-            
-            <!-- Top Bar -->
-            <div class="flex justify-between items-start border-b border-slate-800 pb-2.5">
+          <div class="day-card ${isToday ? 'today' : isDone ? 'past' : day.highPriority ? 'priority' : ''}">
+            <div class="day-top">
               <div>
-                <span class="text-xs font-bold text-emerald-400 tracking-wide uppercase">${day.date}</span>
-                <h2 class="text-base font-bold text-slate-100 flex items-center gap-1.5 mt-0.5">
-                  📍 ${day.city}
-                </h2>
+                <span class="day-date">${day.date}</span>
+                <h2 class="city-name">📍 ${day.city}</h2>
               </div>
-              <div class="flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
-                <span class="text-[10px] font-semibold uppercase tracking-[0.12em] ${isToday ? 'text-emerald-300' : isDone ? 'text-slate-400' : day.highPriority ? 'text-amber-300' : 'text-slate-300'}">${dayTypeLabel}</span>
-              </div>
+              <div class="day-pill ${isToday ? 'today' : isDone ? 'past' : day.highPriority ? 'priority' : ''}">${dayTypeLabel}</div>
             </div>
 
-            <!-- Weather -->
-            <div class="space-y-1.5">
-              <div class="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">Weather</div>
+            <div class="weather-block">
+              <div class="weather-head">Weather</div>
               ${weatherBlock}
             </div>
 
-            <!-- Lodging & Drive -->
-            <div class="grid grid-cols-1 gap-1.5 text-[13px]">
-              <div class="flex items-center justify-between">
-                <div class="text-emerald-300/90 font-medium flex items-center gap-1.5">
-                  🏨 <span>${day.hotel}</span>
-                </div>
-                <a 
-                  href="${mapUrl}" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-1 bg-emerald-950/80 hover:bg-emerald-900/80 text-emerald-300 font-semibold text-[11px] px-2.5 py-1 rounded-lg border border-emerald-500/30 transition active:scale-95 shrink-0"
-                >
-                  📍 <span>View Map</span>
-                </a>
+            <div class="trip-meta">
+              <div class="hotel-row">
+                <div>🏨 ${day.hotel}</div>
+                <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="map-button">📍 View Map</a>
               </div>
-              <div class="text-slate-400 flex items-center gap-1.5">
-                🚗 <span>${day.drive}</span>
-              </div>
+              <div class="drive-row">🚗 ${day.drive}</div>
             </div>
 
-            <!-- Main Activities -->
-            <div class="text-[13px] text-slate-200 leading-relaxed bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
-              ${day.activities.replace(/\n/g, '<br>')}
-            </div>
+            <div class="activities">${day.activities.replace(/\n/g, '<br>')}</div>
 
-            <!-- Scenic Stops -->
             ${day.scenic ? `
-              <div class="text-[13px] text-slate-300 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
-                <strong class="text-emerald-400 font-semibold">🌄 Scenic Route:</strong> ${day.scenic}
-              </div>
+              <div class="scenic"><strong style="color: var(--accent);">🌄 Scenic Route:</strong> ${day.scenic}</div>
             ` : ''}
 
-            <!-- Alert / Urgent Notice -->
             ${day.alert ? `
-              <div class="text-[13px] bg-amber-950/40 border border-amber-500/30 text-amber-200 p-2.5 rounded-xl flex items-start gap-2">
-                <span>⚠️</span>
-                <span>${day.alert}</span>
-              </div>
+              <div class="alert"><strong>⚠️</strong> ${day.alert}</div>
             ` : ''}
-
           </div>
         `;
       }).join('');
