@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+index_html = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -14,13 +14,14 @@
   <link rel="icon" href="https://fav.farm/🇮🇪">
 
   <style>
+    /* Custom scrollbar & mobile tap tweaks */
     ::-webkit-scrollbar { display: none; }
     * { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans pb-16 antialiased selection:bg-emerald-500 selection:text-slate-950">
 
-  <!-- Sticky Header -->
+  <!-- Header -->
   <header class="sticky top-0 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4 shadow-xl z-20">
     <div class="max-w-md mx-auto flex justify-between items-center">
       <div>
@@ -38,8 +39,10 @@
     </div>
   </header>
 
-  <!-- App Cards -->
-  <main class="p-4 max-w-md mx-auto space-y-4" id="app"></main>
+  <!-- Main Content Container -->
+  <main class="p-4 max-w-md mx-auto space-y-4" id="app">
+    <!-- Day cards rendered dynamically via JS -->
+  </main>
 
   <script>
     const itinerary = [
@@ -48,6 +51,7 @@
         date: "Fri, Sep 4",
         city: "Dublin",
         hotel: "Schoolhouse Hotel",
+        searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "Airport Arrival -> Hotel",
         activities: "Arrive morning. Book of Kells, Guinness Storehouse, Jameson Distillery Bow St., St. Stephen's Green.",
         alert: "Required: Reserve tickets for Book of Kells, Kilmainham Gaol, Guinness, & Jameson in advance.",
@@ -58,6 +62,7 @@
         date: "Sat, Sep 5",
         city: "Dublin",
         hotel: "Schoolhouse Hotel",
+        searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "In & around Dublin",
         activities: "Continue Dublin sights & St. Stephen's Green. Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM).",
         alert: "Space out reserved attraction times carefully today.",
@@ -68,6 +73,7 @@
         date: "Sun, Sep 6",
         city: "Enniskillen",
         hotel: "Enniskillen Hotel",
+        searchQuery: "Enniskillen Hotel Enniskillen Northern Ireland",
         drive: "Dublin -> Enniskillen (~2h 15m)",
         activities: "Drive to Enniskillen. Mass at St. Michael's. Detour through North Leitrim (Kelly ancestry).",
         scenic: "Trim Castle & Hill of Tara.",
@@ -78,6 +84,7 @@
         date: "Mon, Sep 7",
         city: "Turin Castle",
         hotel: "Turin Castle (Ballinrobe)",
+        searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Enniskillen -> Westport -> Castle (~3h 30m)",
         activities: "Drive to Westport & area. Photo stop at Croagh Patrick base. Castle Dinner at 7:30 PM.",
         scenic: "Mullaghmore Head, Glencar Waterfall, Yeats Grave (Sligo), Parke's Castle, Knock.",
@@ -88,6 +95,7 @@
         date: "Tue, Sep 8",
         city: "Turin Castle",
         hotel: "Turin Castle (Ballinrobe)",
+        searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Connemara Loop (~2h 30m total)",
         activities: "Day trip: Clifden, Sky Road scenic loop, Connemara, Kylemore Abbey, Doo Lough Valley.",
         scenic: "Sky Road scenic loop near Clifden for coastal views.",
@@ -98,6 +106,7 @@
         date: "Wed, Sep 9",
         city: "Adare / Limerick",
         hotel: "Dunraven Arms Hotel",
+        searchQuery: "Dunraven Arms Hotel Adare Ireland",
         drive: "Turin Castle -> Adare via Burren (~2h 30m)",
         activities: "Drive to Adare via The Burren. Explore area.",
         scenic: "Poulnabrone Dolmen (ancient Neolithic limestone tomb).",
@@ -108,6 +117,7 @@
         date: "Thu, Sep 10",
         city: "Dingle",
         hotel: "Greenmount House B&B",
+        searchQuery: "Greenmount House Dingle Ireland",
         drive: "Adare -> Dingle Peninsula (~2h)",
         activities: "Drive via Connor Pass & Slea Head Loop. Killarney National Park (Ladies View & Molls Gap).",
         scenic: "Slea Head: Dingle Crystal, baby lamb farm, Blasket Centre, Gallarus Oratory.",
@@ -118,8 +128,9 @@
         date: "Fri, Sep 11",
         city: "Dingle",
         hotel: "Greenmount House B&B",
+        searchQuery: "Greenmount House Dingle Ireland",
         drive: "Ring of Kerry / Killarney Loop",
-        activities: "Option A: Drive Ring of Kerry (Molls Gap, Ladies View).\nOption B: Relaxed Killarney day (Ross Castle, Muckross House).",
+        activities: "Option A: Drive Ring of Kerry (Molls Gap, Ladies View).\\nOption B: Relaxed Killarney day (Ross Castle, Muckross House).",
         scenic: "Ross Castle or Muckross House & Gardens.",
         highPriority: false
       },
@@ -128,6 +139,7 @@
         date: "Sat, Sep 12",
         city: "Dublin",
         hotel: "Premier Inn Dublin Airport",
+        searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Dingle -> Cashel (3h) -> Dublin (2h)",
         activities: "Drive to Dublin via Rock of Cashel & Glendalough. Vigil Mass in Dublin (St. Finian 5:30 / St. Comgille 6:30).",
         alert: "Essential Stop: Rock of Cashel.",
@@ -138,8 +150,9 @@
         date: "Sun, Sep 13",
         city: "Dublin / Depart",
         hotel: "Premier Inn (Jane & Steve)",
+        searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Airport Shuttle / NE Coast",
-        activities: "Morning Flights: Brian/Becca, Mary/Doug.\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
+        activities: "Morning Flights: Brian/Becca, Mary/Doug.\\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
         alert: "Free Premier Inn airport shuttle.",
         highPriority: true
       },
@@ -148,6 +161,7 @@
         date: "Mon, Sep 14",
         city: "Departure",
         hotel: "Dublin Airport",
+        searchQuery: "Dublin Airport Ireland",
         drive: "Airport Shuttle",
         activities: "Afternoon Flights: Jane & Steve.",
         alert: "Free Premier Inn airport shuttle.",
@@ -158,14 +172,19 @@
     function render() {
       const container = document.getElementById("app");
       const savedStates = JSON.parse(localStorage.getItem("ireland_2026_progress") || "{}");
+      
       let completedCount = 0;
 
       container.innerHTML = itinerary.map((day) => {
         const isDone = !!savedStates[day.id];
         if (isDone) completedCount++;
 
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.searchQuery)}`;
+
         return `
           <div class="bg-slate-900 rounded-2xl p-4 border ${isDone ? 'border-slate-800 opacity-60' : day.highPriority ? 'border-amber-500/40' : 'border-slate-800'} shadow-lg transition-all space-y-3">
+            
+            <!-- Top Bar -->
             <div class="flex justify-between items-start border-b border-slate-800 pb-2.5">
               <div>
                 <span class="text-xs font-bold text-emerald-400 tracking-wide uppercase">${day.date}</span>
@@ -179,22 +198,51 @@
               </label>
             </div>
 
-            <div class="grid grid-cols-1 gap-1 text-xs">
-              <div class="text-emerald-300/90 font-medium flex items-center gap-1.5">🏨 <span>${day.hotel}</span></div>
-              <div class="text-slate-400 flex items-center gap-1.5">🚗 <span>${day.drive}</span></div>
+            <!-- Lodging & Drive -->
+            <div class="grid grid-cols-1 gap-1.5 text-xs">
+              <div class="flex items-center justify-between">
+                <div class="text-emerald-300/90 font-medium flex items-center gap-1.5">
+                  🏨 <span>${day.hotel}</span>
+                </div>
+                <a 
+                  href="${mapUrl}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 bg-emerald-950/80 hover:bg-emerald-900/80 text-emerald-300 font-semibold text-[11px] px-2.5 py-1 rounded-lg border border-emerald-500/30 transition active:scale-95 shrink-0"
+                >
+                  📍 <span>View Map</span>
+                </a>
+              </div>
+              <div class="text-slate-400 flex items-center gap-1.5">
+                🚗 <span>${day.drive}</span>
+              </div>
             </div>
 
+            <!-- Main Activities -->
             <div class="text-xs text-slate-200 leading-relaxed bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/80">
-              ${day.activities.replace(/\n/g, '<br>')}
+              ${day.activities.replace(/\\n/g, '<br>')}
             </div>
 
-            ${day.scenic ? `<div class="text-xs text-slate-300 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800"><strong class="text-emerald-400 font-semibold">🌄 Scenic Route:</strong> ${day.scenic}</div>` : ''}
+            <!-- Scenic Stops -->
+            ${day.scenic ? `
+              <div class="text-xs text-slate-300 bg-slate-800/40 p-2.5 rounded-xl border border-slate-800">
+                <strong class="text-emerald-400 font-semibold">🌄 Scenic Route:</strong> ${day.scenic}
+              </div>
+            ` : ''}
 
-            ${day.alert ? `<div class="text-xs bg-amber-950/40 border border-amber-500/30 text-amber-200 p-2.5 rounded-xl flex items-start gap-2"><span>⚠️</span><span>${day.alert}</span></div>` : ''}
+            <!-- Alert / Urgent Notice -->
+            ${day.alert ? `
+              <div class="text-xs bg-amber-950/40 border border-amber-500/30 text-amber-200 p-2.5 rounded-xl flex items-start gap-2">
+                <span>⚠️</span>
+                <span>${day.alert}</span>
+              </div>
+            ` : ''}
+
           </div>
         `;
       }).join('');
 
+      // Update progress bar
       const pct = Math.round((completedCount / itinerary.length) * 100);
       document.getElementById("progress-bar").style.width = pct + "%";
       document.getElementById("progress-text").innerText = pct + "% Done";
@@ -207,9 +255,10 @@
       render();
     }
 
+    // Initial render
     render();
 
-    // Inline Service Worker for Offline PWA Support
+    // Register basic Service Worker for offline capability
     if ('serviceWorker' in navigator) {
       const swCode = `
         self.addEventListener('install', e => e.waitUntil(caches.open('v1').then(c => c.addAll(['./']))));
@@ -221,3 +270,9 @@
   </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w") as f:
+    f.write(index_html)
+
+print("Updated index.html successfully created!")
