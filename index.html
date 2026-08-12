@@ -9,7 +9,6 @@
   <meta name="apple-mobile-web-app-title" content="Ireland 2026">
   <title>Ireland Trip 2026</title>
   
-  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="apple-touch-icon" href="https://fav.farm/🇮🇪">
   <link rel="icon" href="https://fav.farm/🇮🇪">
 
@@ -42,7 +41,7 @@
         radial-gradient(circle at top, rgba(22, 64, 71, 0.75), transparent 28%),
         linear-gradient(180deg, var(--bg) 0%, #081821 100%);
       color: var(--text);
-      font-family: Inter, "Segoe UI", sans-serif;
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
@@ -58,6 +57,12 @@
       max-width: 430px;
       margin: 0 auto;
       padding: 0 1rem 1rem;
+    }
+
+    .app-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .topbar {
@@ -135,7 +140,7 @@
       padding: 0.8rem 0.9rem;
     }
 
-    .banner-row {
+    .banner-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -144,40 +149,28 @@
 
     .banner-label {
       font-size: 0.62rem;
-      line-height: 1;
-      letter-spacing: 0.18em;
+      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.2em;
       color: var(--accent);
-      font-weight: 700;
     }
 
     .banner-title {
-      margin-top: 0.3rem;
-      font-size: 1.02rem;
-      font-weight: 800;
-      line-height: 1.2;
+      font-size: 0.95rem;
+      font-weight: 700;
       color: var(--text);
+      margin-top: 0.25rem;
     }
 
-    .banner-subtitle {
-      margin-top: 0.2rem;
-      font-size: 0.78rem;
+    .banner-sub {
+      font-size: 0.75rem;
       color: var(--muted);
-    }
-
-    .banner-icon {
-      flex-shrink: 0;
-      width: 2.45rem;
-      height: 2.45rem;
-      border-radius: 0.9rem;
-      display: grid;
-      place-items: center;
-      font-size: 1.2rem;
-      background: linear-gradient(180deg, rgba(111, 231, 210, 0.18), rgba(95, 196, 214, 0.12));
-      box-shadow: inset 0 0 0 1px rgba(111, 231, 210, 0.18);
+      margin-top: 0.125rem;
     }
 
     .day-card {
+      scroll-margin-top: -20rem; /* Offsets sticky topbar & banner height */
+      scroll-margin-bottom: 2rem;
       background: linear-gradient(180deg, rgba(10, 22, 28, 0.96), rgba(6, 17, 23, 0.96));
       border: 1px solid var(--line);
       border-radius: 1.15rem;
@@ -438,15 +431,77 @@
       flex-shrink: 0;
     }
 
-    .activities {
-      margin-top: 0.8rem;
-      border-radius: 0.95rem;
-      background: rgba(255,255,255,0.02);
+    /* Structured Schedule & Timeline UI */
+    .schedule-head {
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 0.9rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.7rem;
+      background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--line);
-      padding: 0.8rem 0.8rem 0.75rem;
-      color: var(--text);
+      border-radius: 0.85rem;
+      padding: 0.55rem 0.75rem;
+    }
+
+    .timeline-left {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      overflow: hidden;
+    }
+
+    .time-badge {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--accent);
+      background: rgba(111, 231, 210, 0.1);
+      border: 1px solid rgba(111, 231, 210, 0.25);
+      padding: 0.25rem 0.55rem;
+      border-radius: 0.55rem;
+      white-space: nowrap;
+    }
+
+    .activity-desc {
       font-size: 0.82rem;
-      line-height: 1.6;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .activity-map-link {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-decoration: none;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.4rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+
+    .activity-map-link:hover {
+      color: var(--accent);
+      border-color: rgba(111, 231, 210, 0.3);
     }
 
     .scenic, .alert {
@@ -473,10 +528,46 @@
       font-weight: 800;
     }
 
+    /* Notes Area (Custom CSS Replacing Tailwind Utility Classes) */
+    .notes-box {
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .notes-label {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.25rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .notes-input {
+      width: 100%;
+      padding: 0.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 0.875rem;
+      resize: vertical;
+    }
+
+    .notes-input:focus {
+      outline: none;
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans pb-16 antialiased selection:bg-emerald-500 selection:text-slate-950">
+<body>
 
   <!-- Header -->
   <header class="topbar">
@@ -495,11 +586,11 @@
   </header>
 
   <div class="app-shell">
-    <div id="next-up-banner" class="banner"></div>
+    <!-- <div id="next-up-banner" class="banner"></div> -->
   </div>
 
   <!-- Main Content Container -->
-  <main class="app-shell space-y-4" id="app">
+  <main class="app-shell app-main" id="app">
     <!-- Day cards rendered dynamically via JS -->
   </main>
 
@@ -513,9 +604,14 @@
         hotel: "Schoolhouse Hotel",
         searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "Airport Arrival -> Hotel",
-        activities: "Arrive morning. Guinness Storehouse, Jameson Distillery Bow St., St. Stephen's Green.",
-        alert: "Reserve tickets for Guinness & Jameson in advance.",
-        highPriority: true
+        activities: [
+          { time: "Morning", text: "Airport arrival & hotel check-in", query: "Dublin Airport Ireland" },
+          { time: "4:00 PM", text: "Jameson Distillery Bow St.", query: "Jameson Distillery Bow St Dublin Ireland" },
+          { time: "Evening", text: "Dublin Pub Crawl", query: "Pubs Dublin Ireland" }
+        ],
+        alert: "Reserve tickets for Jameson in advance.",
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep5",
@@ -525,9 +621,13 @@
         hotel: "Schoolhouse Hotel",
         searchQuery: "Schoolhouse Hotel Dublin Ireland",
         drive: "In & around Dublin",
-        activities: "Book of Kells. Kilmainham Gaol at 1:45 PM. Continue Dublin sights & St. Stephen's Green. Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM).",
-        alert: "Required: Reserve tickets for Book of Kells, Kilmainham Gaol, Guinness, & Jameson in advance.",
-        highPriority: false
+        activities: [
+          { time: "9:45 AM", text: "Book of Kells & Trinity College", query: "Book of Kells Trinity College Dublin Ireland" },
+          { time: "1:45 PM", text: "Kilmainham Gaol Tour", query: "Kilmainham Gaol Dublin Ireland" },
+          { time: "5:30 / 6:30 PM", text: "Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM)", query: "St Finians Church Dublin Ireland" }
+        ],
+        highPriority: false,
+        notes: ""
       },
       {
         id: "sep6",
@@ -537,9 +637,14 @@
         hotel: "Enniskillen Hotel",
         searchQuery: "Enniskillen Hotel Enniskillen Northern Ireland",
         drive: "Dublin -> Enniskillen (~2h 15m)",
-        activities: "Drive to Enniskillen. Mass at St. Michael's. Detour through North Leitrim (Kelly ancestry).",
+        activities: [
+          { time: "Morning", text: "Drive to Enniskillen", query: "Enniskillen Northern Ireland" },
+          { time: "11:00 AM", text: "Mass at St. Michael's", query: "St Michaels Church Enniskillen Northern Ireland" },
+          { time: "Afternoon", text: "Detour through North Leitrim (Kelly ancestry)", query: "North Leitrim Ireland" }
+        ],
         scenic: "Trim Castle & Hill of Tara.",
-        highPriority: true
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep7",
@@ -549,9 +654,14 @@
         hotel: "Turin Castle (Ballinrobe)",
         searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Enniskillen -> Westport -> Castle (~3h 30m)",
-        activities: "Drive to Westport & area. Photo stop at Croagh Patrick base. Castle Dinner at 7:30 PM.",
+        activities: [
+          { time: "Morning", text: "Drive to Westport & surrounding region", query: "Westport Mayo Ireland" },
+          { time: "2:00 PM", text: "Photo stop at Croagh Patrick base", query: "Croagh Patrick Visitor Centre Ireland" },
+          { time: "7:30 PM", text: "Castle Dinner at Turin Castle", query: "Turin Castle Ballinrobe Ireland" }
+        ],
         scenic: "Mullaghmore Head, Glencar Waterfall, Yeats Grave (Sligo), Parke's Castle, Knock.",
-        highPriority: true
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep8",
@@ -561,9 +671,14 @@
         hotel: "Turin Castle (Ballinrobe)",
         searchQuery: "Turin Castle Ballinrobe Ireland",
         drive: "Connemara Loop (~2h 30m total)",
-        activities: "Day trip: Clifden, Sky Road scenic loop, Connemara, Kylemore Abbey, Doo Lough Valley.",
+        activities: [
+          { time: "Morning", text: "Clifden & Sky Road scenic loop", query: "Sky Road Clifden Ireland" },
+          { time: "1:00 PM", text: "Connemara & Kylemore Abbey", query: "Kylemore Abbey Ireland" },
+          { time: "4:30 PM", text: "Doo Lough Valley drive", query: "Doo Lough Valley Ireland" }
+        ],
         scenic: "Sky Road scenic loop near Clifden for coastal views.",
-        highPriority: false
+        highPriority: false,
+        notes: ""
       },
       {
         id: "sep9",
@@ -573,9 +688,13 @@
         hotel: "Dunraven Arms Hotel",
         searchQuery: "Dunraven Arms Hotel Adare Ireland",
         drive: "Turin Castle -> Adare via Burren (~2h 30m)",
-        activities: "Drive to Adare via The Burren. Explore area.",
+        activities: [
+          { time: "Morning", text: "Drive to Adare via The Burren", query: "The Burren Clare Ireland" },
+          { time: "Afternoon", text: "Explore Adare heritage village & grounds", query: "Adare Village Limerick Ireland" }
+        ],
         scenic: "Poulnabrone Dolmen (ancient Neolithic limestone tomb).",
-        highPriority: true
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep10",
@@ -585,9 +704,13 @@
         hotel: "Greenmount House B&B",
         searchQuery: "Greenmount House Dingle Ireland",
         drive: "Adare -> Dingle Peninsula (~2h)",
-        activities: "Drive via Connor Pass & Slea Head Loop. Killarney National Park (Ladies View & Molls Gap).",
+        activities: [
+          { time: "Morning", text: "Drive via Connor Pass & Slea Head Loop", query: "Conor Pass Dingle Ireland" },
+          { time: "Afternoon", text: "Killarney National Park (Ladies View & Molls Gap)", query: "Ladies View Killarney Ireland" }
+        ],
         scenic: "Slea Head: Dingle Crystal, baby lamb farm, Blasket Centre, Gallarus Oratory.",
-        highPriority: true
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep11",
@@ -597,9 +720,14 @@
         hotel: "Greenmount House B&B",
         searchQuery: "Greenmount House Dingle Ireland",
         drive: "Ring of Kerry / Killarney Loop",
-        activities: "Option A: Drive Ring of Kerry (Molls Gap, Ladies View).\nOption B: Relaxed Killarney day (Ross Castle, Muckross House).",
+        activities: [
+          { time: "Option A", text: "Drive Ring of Kerry (Molls Gap, Ladies View)", query: "Molls Gap Kerry Ireland" },
+          { time: "Option B", text: "Relaxed Killarney day (Ross Castle, Muckross House)", query: "Muckross House Killarney Ireland" },
+          { time: "4:00 PM", text: "Falconry", query: "Falconry Dingle Ireland" }
+        ],
         scenic: "Ross Castle or Muckross House & Gardens.",
-        highPriority: false
+        highPriority: false,
+        notes: ""
       },
       {
         id: "sep12",
@@ -609,9 +737,13 @@
         hotel: "Premier Inn Dublin Airport",
         searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Dingle -> Cashel (3h) -> Dublin (2h)",
-        activities: "Drive to Dublin via Rock of Cashel & Glendalough. Vigil Mass in Dublin (St. Finian 5:30 / St. Comgille 6:30).",
+        activities: [
+          { time: "Morning", text: "Drive to Dublin via Rock of Cashel & Glendalough", query: "Rock of Cashel Tipperary Ireland" },
+          { time: "5:30 / 6:30 PM", text: "Vigil Mass in Dublin (St. Finian 5:30 / St. Comgille 6:30)", query: "St Finians Church Dublin Ireland" }
+        ],
         alert: "Essential Stop: Rock of Cashel.",
-        highPriority: true
+        highPriority: true,
+        notes: ""
       },
       {
         id: "sep13",
@@ -621,9 +753,13 @@
         hotel: "Premier Inn (Jane & Steve)",
         searchQuery: "Premier Inn Dublin Airport Ireland",
         drive: "Airport Shuttle / NE Coast",
-        activities: "Morning Flights: Brian/Becca, Mary/Doug.\nNE Coast Tour / Brú na Bóinne for Jane & Steve.",
+        activities: [
+          { time: "Morning", text: "Morning Flights: Brian/Becca, Mary/Doug", query: "Dublin Airport Ireland" },
+          { time: "Day Tour", text: "NE Coast Tour / Brú na Bóinne for Jane & Steve", query: "Bru na Boinne Ireland" }
+        ],
         alert: "Free Premier Inn airport shuttle.",
-        highPriority: false
+        highPriority: false,
+        notes: ""
       },
       {
         id: "sep14",
@@ -633,9 +769,12 @@
         hotel: "Dublin Airport",
         searchQuery: "Dublin Airport Ireland",
         drive: "Airport Shuttle",
-        activities: "Afternoon Flights: Jane & Steve.",
+        activities: [
+          { time: "Afternoon", text: "Afternoon Flights: Jane & Steve", query: "Dublin Airport Ireland" }
+        ],
         alert: "Free Premier Inn airport shuttle.",
-        highPriority: false
+        highPriority: false,
+        notes: ""
       }
     ];
 
@@ -665,6 +804,50 @@
       return '🌤️';
     }
 
+    // --- Local Storage Persistence Logic ---
+    function loadNotes() {
+      const savedNotes = localStorage.getItem('irelandTrip2026_notes');
+      if (savedNotes) {
+        try {
+          return JSON.parse(savedNotes);
+        } catch (e) {
+          console.error("Error parsing saved notes:", e);
+          return {}; 
+        }
+      }
+      return {};
+    }
+
+    function saveNotes() {
+      const notesToSave = itinerary.reduce((acc, day) => {
+        acc[day.id] = day.notes || ""; 
+        return acc;
+      }, {});
+      localStorage.setItem('irelandTrip2026_notes', JSON.stringify(notesToSave));
+    }
+
+    const itineraryNotes = loadNotes();
+    itinerary.forEach(day => {
+        if (itineraryNotes[day.id] !== undefined) {
+            day.notes = itineraryNotes[day.id];
+        }
+    });
+
+    document.addEventListener('input', (event) => {
+      const target = event.target;
+      if (target.tagName === 'TEXTAREA' && target.closest('.notes-box')) {
+        const dayId = target.id.replace('note-', '');
+        const newNote = target.value;
+
+        const dayToUpdate = itinerary.find(day => day.id === dayId);
+        if (dayToUpdate) {
+          dayToUpdate.notes = newNote;
+          saveNotes();
+        }
+      }
+    });
+
+    // --- Script Functions ---
     async function fetchWeatherForCity(city) {
       try {
         const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
@@ -726,8 +909,6 @@
       }
     }
 
-    const TEST_OVERRIDE_DATE = '2026-09-04T12:00:00';
-
     function getCurrentDate() {
       const override = new URLSearchParams(window.location.search).get('mockDate');
       if (override) return new Date(override);
@@ -769,34 +950,70 @@
       const isPast = nextUpDate && nextUpDate < new Date(getCurrentDate().setHours(0, 0, 0, 0));
       const isComplete = isPast && nextUp.id === itinerary[itinerary.length - 1].id;
 
-      if (isComplete && nextUp.id === itinerary[itinerary.length - 1].id) {
+      if (isComplete) {
         banner.innerHTML = `
-          <div class="flex items-center justify-between gap-3">
+          <div class="banner-inner">
             <div>
-              <div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300">Trip status</div>
-              <div class="text-sm font-bold text-slate-100 mt-1">All set — trip complete</div>
+              <div class="banner-label">Trip status</div>
+              <div class="banner-title">All set — trip complete</div>
             </div>
-            <div class="text-2xl">✅</div>
+            <div style="font-size: 1.5rem;">✅</div>
           </div>
         `;
         return;
       }
 
       banner.innerHTML = `
-        <div class="flex items-center justify-between gap-3">
+        <div class="banner-inner">
           <div>
-            <div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300">Next up</div>
-            <div class="text-base font-bold text-slate-100 mt-1">${nextUp.date} • ${nextUp.city}</div>
-            <div class="text-[12px] text-slate-300 mt-0.5">${nextUp.drive}</div>
+            <div class="banner-label">Next up</div>
+            <div class="banner-title">${nextUp.date} • ${nextUp.city}</div>
+            <div class="banner-sub">${nextUp.drive}</div>
           </div>
-          <div class="text-2xl">➡️</div>
+          <div style="font-size: 1.5rem;">➡️</div>
         </div>
       `;
     }
 
+    function scrollToCurrentDay() {
+      const currentDay = getNextUpDay(); // Finds today or the next upcoming day
+      if (!currentDay) return;
+
+      const cardElement = document.getElementById(`card-${currentDay.id}`);
+      if (cardElement) {
+        cardElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    }
+
+    function renderActivities(day) {
+      if (Array.isArray(day.activities)) {
+        return `
+          <div class="schedule-head">Schedule & Activities</div>
+          <div class="timeline">
+            ${day.activities.map(act => {
+              const queryTerm = act.query || `${act.text} ${day.city} Ireland`;
+              const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(queryTerm)}`;
+              return `
+                <div class="timeline-item">
+                  <div class="timeline-left">
+                    <span class="time-badge">⏰ ${act.time}</span>
+                    <span class="activity-desc">${act.text}</span>
+                  </div>
+                  <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="activity-map-link" title="Open in Google Maps">📍</a>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+      return `<div class="activities">${day.activities.replace(/\n/g, '<br>')}</div>`;
+    }
+
     function render() {
       const container = document.getElementById("app");
-      
       let completedCount = 0;
 
       container.innerHTML = itinerary.map((day) => {
@@ -805,7 +1022,6 @@
         if (isDone) completedCount++;
 
         const isToday = date && date.getTime() === new Date(getCurrentDate().setHours(0, 0, 0, 0)).getTime();
-        const dayTypeClass = isToday ? 'border-emerald-500/50 shadow-emerald-900/20' : isDone ? 'border-slate-800 opacity-60' : day.highPriority ? 'border-amber-500/40' : 'border-slate-800';
         const dayTypeLabel = isToday ? 'Today' : isDone ? 'Past' : 'Upcoming';
 
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(day.searchQuery)}`;
@@ -854,7 +1070,7 @@
             `;
 
         return `
-          <div class="day-card ${isToday ? 'today' : isDone ? 'past' : day.highPriority ? 'priority' : ''}">
+          <div id="card-${day.id}" class="day-card ${isToday ? 'today' : isDone ? 'past' : day.highPriority ? 'priority' : ''}">
             <div class="day-top">
               <div>
                 <span class="day-date">${day.date}</span>
@@ -876,7 +1092,7 @@
               <div class="drive-row">🚗 ${day.drive}</div>
             </div>
 
-            <div class="activities">${day.activities.replace(/\n/g, '<br>')}</div>
+            ${renderActivities(day)}
 
             ${day.scenic ? `
               <div class="scenic"><strong style="color: var(--accent);">🌄 Scenic Route:</strong> ${day.scenic}</div>
@@ -885,6 +1101,13 @@
             ${day.alert ? `
               <div class="alert"><strong>⚠️</strong> ${day.alert}</div>
             ` : ''}
+
+            <div class="notes-box">
+              <label for="note-${day.id}" class="notes-label" onclick="toggleNotes('${day.id}')">✏️ Notes</label>
+              <textarea id="note-${day.id}" rows="3" 
+                        class="notes-input ${day.notes ? '' : 'hidden'}" 
+                        placeholder="Add notes for this day...">${day.notes}</textarea>
+            </div>
           </div>
         `;
       }).join('');
@@ -909,10 +1132,17 @@
       chevron.textContent = isHidden ? '▾' : '▴';
     });
 
+    function toggleNotes(dayId) {
+      const textarea = document.getElementById(`note-${dayId}`);
+      if (textarea) {
+        textarea.classList.toggle('hidden');
+      }
+    }
+
     render();
     hydrateWeather();
+    scrollToCurrentDay();
 
-    // Register basic Service Worker for offline capability
     if ('serviceWorker' in navigator) {
       const swCode = `
         self.addEventListener('install', e => e.waitUntil(caches.open('v1').then(c => c.addAll(['./']))));
