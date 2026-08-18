@@ -824,7 +824,7 @@
 
     // --- Local Storage Persistence Logic ---
     function loadNotes() {
-      const savedNotes = localStorage.getItem('irelandTrip2026_notes');
+      const savedNotes = localStorage.getItem('irelandTrip2026_notesV2');
       if (savedNotes) {
         try {
           return JSON.parse(savedNotes);
@@ -841,7 +841,7 @@
         acc[day.id] = day.notes || ""; 
         return acc;
       }, {});
-      localStorage.setItem('irelandTrip2026_notes', JSON.stringify(notesToSave));
+      localStorage.setItem('irelandTrip2026_notesV2', JSON.stringify(notesToSave));
     }
 
     const itineraryNotes = loadNotes();
