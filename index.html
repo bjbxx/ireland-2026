@@ -563,6 +563,26 @@
     .notes-input:focus {
       outline: none;
     }
+    
+    a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: rgba(111, 231, 210, 0.4);
+      text-underline-offset: 3px;
+      transition: color 150ms ease, text-decoration-color 150ms ease;
+    }
+    
+    a:hover {
+      color: var(--accent-2);
+      text-decoration-color: var(--accent-2);
+    }
+    
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
 
     .hidden { display: none !important; }
   </style>
@@ -606,7 +626,7 @@
         drive: "Airport Arrival -> Hotel",
         activities: [
           { time: "Morning", text: "Airport arrival & hotel check-in", query: "Dublin Airport Ireland" },
-          { time: "Midday", text: '<a href="https://dodublin.ie/hoho-bus-route-map">Hop-on Hop-off Big Bus Tour.</a> National Museum of Archaeology (free entry, bog bodies near Trinity)', query: "National Museum of Archaeology Dublin" },
+          { time: "Midday", text: '<a href="https://dodublin.ie/hoho-bus-route-map" target="_blank" rel="noopener noreferrer">Hop-on Hop-off Big Bus Tour</a> National Museum of Archaeology (free entry, bog bodies near Trinity)', query: "National Museum of Archaeology Dublin" },
           { time: "3:20 PM", text: "Jameson Distillery Bow St. Tour", query: "Jameson Distillery Bow St Dublin Ireland" },
           { time: "Evening", text: "Pub Crawl (The Confession Box & The Long Hall pubs)", query: "The Long Hall Pub Dublin Ireland" }
         ],
