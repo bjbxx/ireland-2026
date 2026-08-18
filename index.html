@@ -929,7 +929,10 @@
 
     function getCurrentDate() {
       const override = new URLSearchParams(window.location.search).get('mockDate');
-      if (override) return new Date(override);
+      if (override) {
+        // Append T00:00:00 to force local timezone parsing instead of UTC
+        return new Date(`${override}T00:00:00`);
+      }
       return new Date();
     }
 
