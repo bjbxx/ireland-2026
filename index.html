@@ -169,8 +169,8 @@
     }
 
     .day-card {
-      scroll-margin-top: 10rem; /* Offsets sticky topbar & banner height */
-      scroll-margin-bottom: 2rem;
+      /* Match the actual height of .topbar (~60px) + 12px padding */
+      scroll-margin-top: 4.5rem; 
       background: linear-gradient(180deg, rgba(10, 22, 28, 0.96), rgba(6, 17, 23, 0.96));
       border: 1px solid var(--line);
       border-radius: 1.15rem;
@@ -994,14 +994,14 @@
     }
 
     function scrollToCurrentDay() {
-      const currentDay = getNextUpDay(); // Finds today or the next upcoming day
+      const currentDay = getNextUpDay();
       if (!currentDay) return;
-
+    
       const cardElement = document.getElementById(`card-${currentDay.id}`);
       if (cardElement) {
         cardElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'center'
+          block: 'start' // Uses scroll-margin-top correctly
         });
       }
     }
