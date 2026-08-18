@@ -596,188 +596,192 @@
 
   <script>
     const itinerary = [
-      {
-        id: "sep4",
-        date: "Fri, Sep 4",
-        city: "Dublin",
-        weatherCity: "Dublin",
-        hotel: "Schoolhouse Hotel",
-        searchQuery: "Schoolhouse Hotel Dublin Ireland",
-        drive: "Airport Arrival -> Hotel",
-        activities: [
-          { time: "Morning", text: "Airport arrival & hotel check-in", query: "Dublin Airport Ireland" },
-          { time: "4:00 PM", text: "Jameson Distillery Bow St.", query: "Jameson Distillery Bow St Dublin Ireland" },
-          { time: "Evening", text: "Dublin Pub Crawl", query: "Pubs Dublin Ireland" }
-        ],
-        alert: "Reserve tickets for Jameson in advance.",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep5",
-        date: "Sat, Sep 5",
-        city: "Dublin",
-        weatherCity: "Dublin",
-        hotel: "Schoolhouse Hotel",
-        searchQuery: "Schoolhouse Hotel Dublin Ireland",
-        drive: "In & around Dublin",
-        activities: [
-          { time: "9:45 AM", text: "Book of Kells & Trinity College", query: "Book of Kells Trinity College Dublin Ireland" },
-          { time: "1:45 PM", text: "Kilmainham Gaol Tour", query: "Kilmainham Gaol Dublin Ireland" },
-          { time: "5:30 / 6:30 PM", text: "Vigil Mass: St. Finian (5:30 PM) or St. Comgille (6:30 PM)", query: "St Finians Church Dublin Ireland" }
-        ],
-        highPriority: false,
-        notes: ""
-      },
-      {
-        id: "sep6",
-        date: "Sun, Sep 6",
-        city: "Enniskillen",
-        weatherCity: "Enniskillen",
-        hotel: "Enniskillen Hotel",
-        searchQuery: "Enniskillen Hotel Enniskillen Northern Ireland",
-        drive: "Dublin -> Enniskillen (~2h 15m)",
-        activities: [
-          { time: "Morning", text: "Drive to Enniskillen", query: "Enniskillen Northern Ireland" },
-          { time: "11:00 AM", text: "Mass at St. Michael's", query: "St Michaels Church Enniskillen Northern Ireland" },
-          { time: "Afternoon", text: "Detour through North Leitrim (Kelly ancestry)", query: "North Leitrim Ireland" }
-        ],
-        scenic: "Trim Castle & Hill of Tara.",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep7",
-        date: "Mon, Sep 7",
-        city: "Turin Castle",
-        weatherCity: "Ballinrobe",
-        hotel: "Turin Castle (Ballinrobe)",
-        searchQuery: "Turin Castle Ballinrobe Ireland",
-        drive: "Enniskillen -> Westport -> Castle (~3h 30m)",
-        activities: [
-          { time: "Morning", text: "Drive to Westport & surrounding region", query: "Westport Mayo Ireland" },
-          { time: "2:00 PM", text: "Photo stop at Croagh Patrick base", query: "Croagh Patrick Visitor Centre Ireland" },
-          { time: "7:30 PM", text: "Castle Dinner at Turin Castle", query: "Turin Castle Ballinrobe Ireland" }
-        ],
-        scenic: "Mullaghmore Head, Glencar Waterfall, Yeats Grave (Sligo), Parke's Castle, Knock.",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep8",
-        date: "Tue, Sep 8",
-        city: "Turin Castle",
-        weatherCity: "Ballinrobe",
-        hotel: "Turin Castle (Ballinrobe)",
-        searchQuery: "Turin Castle Ballinrobe Ireland",
-        drive: "Connemara Loop (~2h 30m total)",
-        activities: [
-          { time: "Morning", text: "Clifden & Sky Road scenic loop", query: "Sky Road Clifden Ireland" },
-          { time: "1:00 PM", text: "Connemara & Kylemore Abbey", query: "Kylemore Abbey Ireland" },
-          { time: "4:30 PM", text: "Doo Lough Valley drive", query: "Doo Lough Valley Ireland" }
-        ],
-        scenic: "Sky Road scenic loop near Clifden for coastal views.",
-        highPriority: false,
-        notes: ""
-      },
-      {
-        id: "sep9",
-        date: "Wed, Sep 9",
-        city: "Adare / Limerick",
-        weatherCity: "Adare",
-        hotel: "Dunraven Arms Hotel",
-        searchQuery: "Dunraven Arms Hotel Adare Ireland",
-        drive: "Turin Castle -> Adare via Burren (~2h 30m)",
-        activities: [
-          { time: "Morning", text: "Drive to Adare via The Burren", query: "The Burren Clare Ireland" },
-          { time: "Afternoon", text: "Explore Adare heritage village & grounds", query: "Adare Village Limerick Ireland" }
-        ],
-        scenic: "Poulnabrone Dolmen (ancient Neolithic limestone tomb).",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep10",
-        date: "Thu, Sep 10",
-        city: "Dingle",
-        weatherCity: "Dingle",
-        hotel: "Greenmount House B&B",
-        searchQuery: "Greenmount House Dingle Ireland",
-        drive: "Adare -> Dingle Peninsula (~2h)",
-        activities: [
-          { time: "Morning", text: "Drive via Connor Pass & Slea Head Loop", query: "Conor Pass Dingle Ireland" },
-          { time: "Afternoon", text: "Killarney National Park (Ladies View & Molls Gap)", query: "Ladies View Killarney Ireland" }
-        ],
-        scenic: "Slea Head: Dingle Crystal, baby lamb farm, Coumeenoole Beach, Dunquin Pier, Blasket Centre, Gallarus Oratory.",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep11",
-        date: "Fri, Sep 11",
-        city: "Dingle",
-        weatherCity: "Dingle",
-        hotel: "Greenmount House B&B",
-        searchQuery: "Greenmount House Dingle Ireland",
-        drive: "Ring of Kerry / Killarney Loop",
-        activities: [
-          { time: "Option A", text: "Drive Ring of Kerry (Molls Gap, Ladies View)", query: "Molls Gap Kerry Ireland" },
-          { time: "Option B", text: "Relaxed Killarney day (Ross Castle, Muckross House)", query: "Muckross House Killarney Ireland" },
-          { time: "4:00 PM", text: "Falconry", query: "Falconry Dingle Ireland" }
-        ],
-        scenic: "Ross Castle or Muckross House & Gardens.",
-        highPriority: false,
-        notes: ""
-      },
-      {
-        id: "sep12",
-        date: "Sat, Sep 12",
-        city: "Dublin",
-        weatherCity: "Dublin",
-        hotel: "Premier Inn Dublin Airport",
-        searchQuery: "Premier Inn Dublin Airport Ireland",
-        drive: "Dingle -> Cashel (3h) -> Dublin (2h)",
-        activities: [
-          { time: "Morning", text: "Drive to Dublin via Rock of Cashel & Glendalough", query: "Rock of Cashel Tipperary Ireland" },
-          { time: "5:30 / 6:30 PM", text: "Vigil Mass in Dublin (St. Finian 5:30 / St. Comgille 6:30)", query: "St Finians Church Dublin Ireland" }
-        ],
-        alert: "Essential Stop: Rock of Cashel.",
-        highPriority: true,
-        notes: ""
-      },
-      {
-        id: "sep13",
-        date: "Sun, Sep 13",
-        city: "Dublin / Depart",
-        weatherCity: "Dublin",
-        hotel: "Premier Inn (Jane & Steve)",
-        searchQuery: "Premier Inn Dublin Airport Ireland",
-        drive: "Airport Shuttle / NE Coast",
-        activities: [
-          { time: "Morning", text: "Morning Flights: Brian/Becca, Mary/Doug", query: "Dublin Airport Ireland" },
-          { time: "Day Tour", text: "NE Coast Tour / Brú na Bóinne for Jane & Steve", query: "Bru na Boinne Ireland" }
-        ],
-        alert: "Free Premier Inn airport shuttle.",
-        highPriority: false,
-        notes: ""
-      },
-      {
-        id: "sep14",
-        date: "Mon, Sep 14",
-        city: "Departure",
-        weatherCity: "Dublin",
-        hotel: "Dublin Airport",
-        searchQuery: "Dublin Airport Ireland",
-        drive: "Airport Shuttle",
-        activities: [
-          { time: "Afternoon", text: "Afternoon Flights: Jane & Steve", query: "Dublin Airport Ireland" }
-        ],
-        alert: "Free Premier Inn airport shuttle.",
-        highPriority: false,
-        notes: ""
-      }
-    ];
-
+  {
+    id: "sep4",
+    date: "Fri, Sep 4",
+    city: "Dublin",
+    weatherCity: "Dublin",
+    hotel: "Schoolhouse Hotel",
+    searchQuery: "Schoolhouse Hotel Dublin Ireland",
+    drive: "Airport Arrival -> Hotel",
+    activities: [
+      { time: "Morning", text: "Airport arrival & hotel check-in / Optional Hop-on/Hop-off Big Bus Tour", query: "Dublin Airport Ireland" },
+      { time: "10:00 AM - 5:00 PM", text: "National Museum of Archaeology (free entry, bog bodies near Trinity)", query: "National Museum of Archaeology Dublin" },
+      { time: "3:20 PM", text: "Jameson Distillery Bow St. Tour (Tickets Secured)", query: "Jameson Distillery Bow St Dublin Ireland" },
+      { time: "Evening", text: "Pub Crawl (The Confession Box & The Long Hall pubs)", query: "The Long Hall Pub Dublin Ireland" }
+    ],
+    alert: "Tickets secured for Jameson (3:20 PM). No formal dinner plans yet (pub food).",
+    highPriority: true,
+    notes: "Becca requested Confession Box and The Long Hall pubs."
+  },
+  {
+    id: "sep5",
+    date: "Sat, Sep 5",
+    city: "Dublin",
+    weatherCity: "Dublin",
+    hotel: "Schoolhouse Hotel",
+    searchQuery: "Schoolhouse Hotel Dublin Ireland",
+    drive: "In & around Dublin",
+    activities: [
+      { time: "9:30 AM", text: "Book of Kells & Trinity College (Tickets Secured)", query: "Book of Kells Trinity College Dublin Ireland" },
+      { time: "12:00 PM", text: "Mass at Church of the Immaculate Conception", query: "Church of the Immaculate Conception Dublin Ireland" },
+      { time: "1:45 PM", text: "Kilmainham Gaol Tour (Tickets Secured)", query: "Kilmainham Gaol Dublin Ireland" },
+      { time: "4:45 PM", text: "Dinner at FX Buckley (Pembroke St.)", query: "FX Buckley Pembroke Street Dublin Ireland" }
+    ],
+    scenic: "St. Stephen's Green park relaxation.",
+    highPriority: false,
+    notes: "Guinness Storehouse also noted as option."
+  },
+  {
+    id: "sep6",
+    date: "Sun, Sep 6",
+    city: "Enniskillen",
+    weatherCity: "Enniskillen",
+    hotel: "Enniskillen Hotel",
+    searchQuery: "Enniskillen Hotel Enniskillen Northern Ireland",
+    drive: "Dublin -> Enniskillen (~2h 15m)",
+    activities: [
+      { time: "Morning", text: "Drive to Enniskillen via Trim Castle & Hill of Tara", query: "Trim Castle Ireland" },
+      { time: "11:00 AM", text: "Mass at St. Michael's", query: "St Michaels Church Enniskillen Northern Ireland" },
+      { time: "Afternoon", text: "Detour through North Leitrim (Kelly ancestry)", query: "North Leitrim Ireland" },
+      { time: "En Route", text: "Stop at Mulligan's Railway Bar (formerly McQuillan's) in Newtownbutler", query: "Mulligans Railway Bar Newtownbutler" }
+    ],
+    scenic: "Trim Castle & Hill of Tara.",
+    highPriority: true,
+    notes: "Overnight reserved at Enniskillen Hotel."
+  },
+  {
+    id: "sep7",
+    date: "Mon, Sep 7",
+    city: "Turin Castle",
+    weatherCity: "Ballinrobe",
+    hotel: "Turin Castle (Ballinrobe)",
+    searchQuery: "Turin Castle Ballinrobe Ireland",
+    drive: "Enniskillen -> Sligo -> Westport -> Castle (~3h 30m)",
+    activities: [
+      { time: "Morning", text: "Drive via Mullaghmore Head, Glencar Waterfall, Yeats Grave & Parke's Castle", query: "Glencar Waterfall Ireland" },
+      { time: "Afternoon", "text": "Short stop in Knock & photo stop at Croagh Patrick base", query: "Croagh Patrick Visitor Centre Ireland" },
+      { time: "7:30 PM", text: "Castle Dinner at Turin Castle", query: "Turin Castle Ballinrobe Ireland" }
+    ],
+    scenic: "Mullaghmore Head, Glencar Waterfall, Yeats Grave (Sligo), Parke's Castle, Knock.",
+    highPriority: true,
+    notes: "Overnight reserved at Turin Castle near Ballinrobe."
+  },
+  {
+    id: "sep8",
+    date: "Tue, Sep 8",
+    city: "Turin Castle",
+    weatherCity: "Ballinrobe",
+    hotel: "Turin Castle (Ballinrobe)",
+    searchQuery: "Turin Castle Ballinrobe Ireland",
+    drive: "Connemara Loop (~2h 30m total)",
+    activities: [
+      { time: "Morning", text: "Clifden & Sky Road scenic loop", query: "Sky Road Clifden Ireland" },
+      { time: "1:00 PM", text: "Connemara & Kylemore Abbey", query: "Kylemore Abbey Ireland" },
+      { time: "4:30 PM", text: "Doo Lough Valley drive", query: "Doo Lough Valley Ireland" }
+    ],
+    scenic: "Sky Road scenic loop near Clifden for coastal views.",
+    highPriority: false,
+    notes: "Spreadsheet summary lists 'Cliffs of Moher', but driving plan focuses on Connemara loop."
+  },
+  {
+    id: "sep9",
+    date: "Wed, Sep 9",
+    city: "Adare / Limerick",
+    weatherCity: "Adare",
+    hotel: "Dunraven Arms Hotel",
+    searchQuery: "Dunraven Arms Hotel Adare Ireland",
+    drive: "Turin Castle -> Adare via Burren (~2h 30m)",
+    activities: [
+      { time: "Morning", text: "Drive to Adare via The Burren & Poulnabrone Dolmen", query: "The Burren Clare Ireland" },
+      { time: "Afternoon", text: "Explore Adare heritage village & grounds", query: "Adare Village Limerick Ireland" }
+    ],
+    scenic: "Poulnabrone Dolmen (ancient Neolithic limestone tomb).",
+    highPriority: true,
+    notes: "Overnight reserved at Dunraven Arms Hotel in Adare."
+  },
+  {
+    id: "sep10",
+    date: "Thu, Sep 10",
+    city: "Dingle",
+    weatherCity: "Dingle",
+    hotel: "Greenmount House B&B",
+    searchQuery: "Greenmount House Dingle Ireland",
+    drive: "Adare -> Dingle Peninsula (~2h)",
+    activities: [
+      { time: "Morning", text: "Drive via Conor Pass & Slea Head Loop (Dingle Crystal, lamb farm, Blasket Centre, Gallarus Oratory)", query: "Conor Pass Dingle Ireland" },
+      { time: "Afternoon", text: "Killarney National Park (Ladies View & Molls Gap)", query: "Ladies View Killarney Ireland" }
+    ],
+    scenic: "Slea Head: Dingle Crystal, baby lamb farm, Coumeenoole Beach, Dunquin Pier, Blasket Centre, Gallarus Oratory.",
+    highPriority: true,
+    notes: "Overnight reserved at Greenmount House B&B in Dingle."
+  },
+  {
+    id: "sep11",
+    date: "Fri, Sep 11",
+    city: "Dingle",
+    weatherCity: "Dingle",
+    hotel: "Greenmount House B&B",
+    searchQuery: "Greenmount House Dingle Ireland",
+    drive: "Ring of Kerry / Killarney Loop",
+    activities: [
+      { time: "Option A", text: "Drive Ring of Kerry (Molls Gap, Ladies View)", query: "Molls Gap Kerry Ireland" },
+      { time: "Option B", text: "Relaxed Killarney day (Ross Castle, Muckross House & Gardens)", query: "Muckross House Killarney Ireland" },
+      { time: "4:00 PM", text: "Kingdom Falconry in Dingle", query: "Falconry Dingle Ireland" }
+    ],
+    scenic: "Ross Castle or Muckross House & Gardens.",
+    highPriority: false,
+    notes: "Overnight reserved at Greenmount House B&B in Dingle."
+  },
+  {
+    id: "sep12",
+    date: "Sat, Sep 12",
+    city: "Dublin",
+    weatherCity: "Dublin",
+    hotel: "Premier Inn Dublin Airport",
+    searchQuery: "Premier Inn Dublin Airport Ireland",
+    drive: "Dingle -> Cashel (3h) -> Glendalough -> Dublin (2h)",
+    activities: [
+      { time: "Morning", text: "Drive to Dublin via Rock of Cashel & Glendalough", query: "Rock of Cashel Tipperary Ireland" },
+      { time: "5:30 / 6:30 PM", text: "Saturday Vigil Mass in Dublin (St. Finian in Swords 5:30 PM / St. Colmcille 6:30 PM)", query: "St Finians Church Dublin Ireland" }
+    ],
+    alert: "Essential Stop: Rock of Cashel.",
+    highPriority: true,
+    notes: "Overnight reserved at Premier Inn by Dublin Airport."
+  },
+  {
+    id: "sep13",
+    date: "Sun, Sep 13",
+    city: "Dublin / Depart",
+    weatherCity: "Dublin",
+    hotel: "Premier Inn (Jane & Steve)",
+    searchQuery: "Premier Inn Dublin Airport Ireland",
+    drive: "Airport Shuttle / NE Coast",
+    activities: [
+      { time: "Morning", text: "Morning Flights: Brian/Becca, Mary/Doug (Free Premier Inn shuttle)", query: "Dublin Airport Ireland" },
+      { time: "9:30 AM", text": "Brú na Bóinne / Newgrange Tour for Jane & Steve", query: "Bru na Boinne Ireland" },
+      { time: "Day Tour", text: "NE Coast Tour for Jane & Steve", query: "NE Coast Dublin Ireland" }
+    ],
+    alert: "Free Premier Inn airport shuttle. Newgrange tour booked for 9:30 AM.",
+    highPriority: false,
+    notes: "Jane & Steve overnight at Premier Inn Dublin Airport."
+  },
+  {
+    id: "sep14",
+    date: "Mon, Sep 14",
+    city: "Departure",
+    weatherCity: "Dublin",
+    hotel: "Dublin Airport",
+    searchQuery: "Dublin Airport Ireland",
+    drive: "Airport Shuttle",
+    activities: [
+      { time: "Afternoon", text: "Afternoon Flights: Jane & Steve", query: "Dublin Airport Ireland" }
+    ],
+    alert: "Free Premier Inn airport shuttle.",
+    highPriority: false,
+    notes: "Final departure day."
+  }
+];
     const weatherCache = new Map();
 
     function getWeatherLabel(code) {
