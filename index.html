@@ -868,7 +868,7 @@
     // --- Script Functions ---
     async function fetchWeatherForCity(city) {
       try {
-        const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+        const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json&countryCode=IE`;
         const geocodeResponse = await fetch(geocodeUrl);
         if (!geocodeResponse.ok) return null;
 
